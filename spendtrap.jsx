@@ -150,7 +150,7 @@ function generatePDF(result) {
   }
 }
 
-const SYSTEM_PROMPT = `You are SpendTrap, a ruthless financial waste detector. A user will provide their bank or credit card statement — either as pasted text or as an uploaded file (PDF or image). Your job is to analyze it and return ONLY a valid JSON object — no markdown, no preamble, no explanation outside the JSON.
+const SYSTEM_PROMPT = `You are SpendTrap, a sharp financial waste detector. A user will provide their bank or credit card statement — either as pasted text or as an uploaded file (PDF or image). Your job is to analyze it and return ONLY a valid JSON object — no markdown, no preamble, no explanation outside the JSON.
 
 Analyze the transactions and identify:
 1. Recurring subscriptions (monthly/annual services)
@@ -164,7 +164,7 @@ Return this exact JSON structure:
   "totalMonthlyWaste": <number, estimated monthly dollars being wasted>,
   "totalAnnualWaste": <number, totalMonthlyWaste * 12>,
   "grade": <"A", "B", "C", "D", or "F">,
-  "headline": <string, one punchy sentence roasting their spending, max 12 words>,
+  "headline": <string, one sharp diagnostic sentence about their spending, max 12 words — factual and direct, never insulting>,
   "categories": [
     {
       "name": <string, category name like "Streaming", "Fitness", "Food Apps">,
@@ -174,7 +174,7 @@ Return this exact JSON structure:
           "name": <string, service/merchant name>,
           "amount": <number, monthly cost>,
           "verdict": <"keep" | "cut" | "swap">,
-          "reason": <string, 1 sentence brutal reason>
+          "reason": <string, 1 sentence direct reason — specific and factual, not personal>
         }
       ]
     }
@@ -188,14 +188,14 @@ Return this exact JSON structure:
       "action": <string, short CTA like "Switch Now" or "Cancel Today">
     }
   ],
-  "topInsight": <string, one powerful insight about their spending pattern, max 20 words>
+  "topInsight": <string, one high-signal insight about their spending pattern, max 20 words — specific and factual>
 }
 
-Be direct, slightly brutal, and specific. If the input is too vague or not a bank statement, return:
+Be direct and specific. Focus on what the data shows, not character judgments. If the input is too vague or not a bank statement, return:
 {"error": "Please paste actual transaction data or upload a bank statement — merchant names and amounts work best."}`;
 
 const gradeColors = { A: "#22c55e", B: "#84cc16", C: "#eab308", D: "#f97316", F: "#ef4444" };
-const gradeLabels = { A: "Squeaky Clean", B: "Not Bad", C: "Room to Grow", D: "Bleeding Out", F: "Financial Chaos" };
+const gradeLabels = { A: "Squeaky Clean", B: "Not Bad", C: "Room to Grow", D: "Bleeding Cash", F: "Financial Chaos" };
 
 const ACCEPTED_TYPES = {
   "application/pdf": { label: "PDF", icon: "📄" },
@@ -328,6 +328,25 @@ export default function SpendTrap() {
   const [shareFlash, setShareFlash] = useState(false);
   const [reportUnlocked, setReportUnlocked] = useState(false);
   const [showPayModal, setShowPayModal] = useState(false);
+  const [awaitingReturn, setAwaitingReturn] = useState(false);
+
+  // Auto-verify Stripe payment on redirect return
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get("session_id");
+    if (sessionId) {
+      fetch(`/api/verify?session_id=${sessionId}`)
+        .then(r => r.json())
+        .then(data => {
+          if (data.paid) {
+            setReportUnlocked(true);
+            // Clean URL
+            window.history.replaceState({}, "", window.location.pathname);
+          }
+        })
+        .catch(() => {});
+    }
+  }, []);
   const fileInputRef = useRef(null);
 
   const loadingMessages = [
@@ -390,7 +409,7 @@ export default function SpendTrap() {
         ];
       }
 
-      const response = await fetch("https://api.anthropic.com/v1/messages", {
+      const response = await fetch("/api/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -451,6 +470,7 @@ export default function SpendTrap() {
     setUploadedFile(null);
     setReportUnlocked(false);
     setShowPayModal(false);
+    setAwaitingReturn(false);
   }
 
   function handleShare() {
@@ -535,8 +555,8 @@ export default function SpendTrap() {
         <h1 style={{ fontSize: "clamp(36px, 7vw, 58px)", fontWeight: 900, lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: 16 }}>
           Your money is<br /><span style={{ color: "#ef4444" }}>trapped.</span>
         </h1>
-        <p style={{ fontSize: 16, color: "#888", lineHeight: 1.6, maxWidth: 480 }}>
-          Paste your transactions or upload a bank statement. SpendTrap finds every subscription, fee, and forgotten charge draining your account — and tells you exactly what to do about it.
+        <p style={{ fontSize: 16, color: "#aaa", lineHeight: 1.6, maxWidth: 480 }}>
+          Upload a bank statement or paste your transactions to see a free preview of the subscriptions, repeat charges, and hidden spending leaks draining your account. Unlock the full audit for $4.99 one-time.
         </p>
       </div>
 
@@ -659,12 +679,16 @@ export default function SpendTrap() {
             fontFamily: "'Syne', sans-serif", letterSpacing: "-0.01em",
             transition: "all 0.2s ease",
           }}>
-          Run My Audit →
+          See My Free Preview →
         </button>
 
-        <div style={{ display: "flex", gap: 24, marginTop: 20, justifyContent: "center", flexWrap: "wrap" }}>
-          {["No account needed", "100% private", "File never stored"].map(t => (
-            <div key={t} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "#555" }}>
+        <div style={{ marginTop: 10, textAlign: "center", fontSize: 12, color: "#666" }}>
+          Free preview included. Full audit unlock is $4.99 one-time. No subscription.
+        </div>
+
+        <div style={{ display: "flex", gap: 20, marginTop: 16, justifyContent: "center", flexWrap: "wrap" }}>
+          {["No account needed", "Read-only analysis", "File deleted after processing", "No subscription required"].map(t => (
+            <div key={t} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11, color: "#666" }}>
               <span style={{ color: "#22c55e" }}>✓</span> {t}
             </div>
           ))}
@@ -832,8 +856,8 @@ export default function SpendTrap() {
               </a>
             ))}
           </div>
-          <div style={{ marginTop: 8, fontSize: 10, color: "#2a2a2a", fontFamily: "monospace", textAlign: "right" }}>
-            affiliate links · we may earn a small fee if you sign up
+          <div style={{ marginTop: 8, fontSize: 11, color: "#666", fontFamily: "monospace", textAlign: "left" }}>
+            Some recommendations are partner links. We may earn a fee if you sign up.
           </div>
         </div>
 
@@ -865,7 +889,7 @@ export default function SpendTrap() {
                         <div style={{ fontSize: 11, color: "#333", marginTop: 2 }}>{cat.items?.length} item{cat.items?.length !== 1 ? "s" : ""} hidden</div>
                       </div>
                     </div>
-                    <div style={{ fontSize: 12, fontWeight: 800, color: "#f97316" }}>Unlock →</div>
+                    <div style={{ fontSize: 12, fontWeight: 800, color: "#f97316" }}>Included in Full Audit</div>
                   </div>
                 );
                 return (
@@ -891,12 +915,10 @@ export default function SpendTrap() {
               })}
             </div>
 
-            {!reportUnlocked && result.categories.length > 1 && (
               <div onClick={() => setShowPayModal(true)} style={{ marginTop: 10, padding: "12px 16px", background: "#0a0805", border: "1px dashed #2a1e0a", borderRadius: 8, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <div style={{ fontSize: 12, color: "#666" }}>+ full swap list locked</div>
-                <div style={{ fontSize: 12, fontWeight: 800, color: "#f97316" }}>Unlock for $4.99 →</div>
+                <div style={{ fontSize: 12, color: "#888" }}>Unlock remaining categories, swaps, and action plan</div>
+                <div style={{ fontSize: 12, fontWeight: 800, color: "#f97316" }}>Unlock Full Audit — $4.99</div>
               </div>
-            )}
           </div>
         )}
 
@@ -913,13 +935,13 @@ export default function SpendTrap() {
                 <div style={{ fontSize: 16, fontWeight: 800, color: "#f97316", marginBottom: 6 }}>
                   {swaps.length} Swap Recommendation{swaps.length > 1 ? "s" : ""} Locked
                 </div>
-                <div style={{ fontSize: 12, color: "#555", lineHeight: 1.6, marginBottom: 20, maxWidth: 320, margin: "0 auto 20px" }}>
-                  Unlock the full action plan — every swap, every cancellation link, and your downloadable PDF report.
+                <div style={{ fontSize: 12, color: "#888", lineHeight: 1.6, marginBottom: 20, maxWidth: 320, margin: "0 auto 20px" }}>
+                  Unlock the full audit to see every suggested swap, every action step, and your downloadable report.
                 </div>
-                <div style={{ display: "inline-block", background: "#f97316", color: "#fff", padding: "11px 28px", borderRadius: 7, fontSize: 14, fontWeight: 800 }}>
-                  Unlock Everything · $4.99 →
+                <div style={{ display: "inline-block", background: "#ef4444", color: "#fff", padding: "11px 28px", borderRadius: 7, fontSize: 14, fontWeight: 800 }}>
+                  Unlock Full Audit — $4.99
                 </div>
-                <div style={{ marginTop: 10, fontSize: 11, color: "#333" }}>One-time · No subscription · Instant access</div>
+                <div style={{ marginTop: 10, fontSize: 11, color: "#666" }}>One-time payment · No subscription · Instant access</div>
               </div>
             ) : (
               /* Unlocked — show all swaps */
@@ -961,15 +983,15 @@ export default function SpendTrap() {
         <div className="fade-up-5" style={{ background: "#0d0d0d", border: "1px solid #1e1e1e", borderRadius: 10, padding: "28px 24px", textAlign: "center" }}>
           <div style={{ fontSize: 22, marginBottom: 8 }}>📣</div>
           <h3 style={{ fontSize: 17, fontWeight: 800, marginBottom: 6 }}>Share Your Score</h3>
-          <p style={{ fontSize: 13, color: "#666", marginBottom: 20, lineHeight: 1.5 }}>
-            "SpendTrap found ${Math.round(result.totalAnnualWaste).toLocaleString()}/year trapped in my account. My score: {result.wasteScore}/100. What's yours?"
+          <p style={{ fontSize: 13, color: "#888", marginBottom: 20, lineHeight: 1.5 }}>
+            "SpendTrap found ${Math.round(result.totalAnnualWaste).toLocaleString()}/year in wasted spending in my account. My Waste Score was {result.wasteScore}. What would yours be?"
           </p>
           <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
             <button onClick={handleShare} style={{ background: shareFlash ? "#22c55e" : "#ef4444", color: "#fff", border: "none", borderRadius: 6, padding: "12px 24px", fontSize: 14, fontWeight: 800, cursor: "pointer", fontFamily: "'Syne', sans-serif", transition: "background 0.3s ease" }}>
-              {shareFlash ? "✓ Copied!" : "Copy & Share →"}
+              {shareFlash ? "✓ Copied!" : "Copy & Share"}
             </button>
-            <button onClick={resetAll} style={{ background: "transparent", color: "#666", border: "1px solid #222", borderRadius: 6, padding: "12px 24px", fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: "'Syne', sans-serif" }}>
-              Audit Another Card
+            <button onClick={resetAll} style={{ background: "transparent", color: "#888", border: "1px solid #333", borderRadius: 6, padding: "12px 24px", fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: "'Syne', sans-serif" }}>
+              Audit Another Statement
             </button>
           </div>
         </div>
@@ -978,15 +1000,15 @@ export default function SpendTrap() {
         <div className="fade-up-5" style={{ marginTop: 16, background: reportUnlocked ? "#080f08" : "#0a0805", border: `1px solid ${reportUnlocked ? "#1a3a1a" : "#2a1e0a"}`, borderRadius: 10, padding: "24px", display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap" }}>
           <div style={{ flex: 1, minWidth: 220 }}>
             <div style={{ fontSize: 11, fontFamily: "monospace", letterSpacing: "0.12em", color: reportUnlocked ? "#22c55e" : "#f97316", marginBottom: 6 }}>
-              {reportUnlocked ? "✓ REPORT UNLOCKED" : "📄 SAVE YOUR REPORT · $4.99"}
+              {reportUnlocked ? "✓ INCLUDED WITH FULL AUDIT" : "INCLUDED WITH FULL AUDIT"}
             </div>
             <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 4 }}>
-              {reportUnlocked ? "Your full PDF report is ready" : "Get a printable PDF you can act on"}
+              {reportUnlocked ? "Download your printable action plan" : "Get a printable PDF you can act on"}
             </div>
-            <div style={{ fontSize: 12, color: "#555", lineHeight: 1.5 }}>
+            <div style={{ fontSize: 12, color: "#888", lineHeight: 1.5 }}>
               {reportUnlocked
-                ? "Download and use this on any negotiation call with your providers."
-                : "Full breakdown · Swap table · Bring it to a negotiation call. One-time, no subscription."}
+                ? "Full breakdown, swap recommendations, and action steps — ready to print or share."
+                : "Full breakdown · Swap table · Action steps you can actually use. Included in the full audit."}
             </div>
           </div>
           {reportUnlocked ? (
@@ -1008,47 +1030,39 @@ export default function SpendTrap() {
         {showPayModal && (
           <div style={{ position: "fixed", inset: 0, background: "#000000cc", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000, padding: 24 }}>
             <div style={{ background: "#111", border: "1px solid #222", borderRadius: 12, padding: "32px", maxWidth: 420, width: "100%" }}>
-              <div style={{ fontSize: 24, marginBottom: 4 }}>📄</div>
-              <h3 style={{ fontSize: 20, fontWeight: 900, marginBottom: 8 }}>Your SpendTrap Report</h3>
-              <p style={{ fontSize: 13, color: "#666", marginBottom: 24, lineHeight: 1.6 }}>
-                One-time payment of <strong style={{ color: "#f97316" }}>$4.99</strong>. No subscription. Download instantly after payment.
+              <div style={{ fontSize: 24, marginBottom: 4 }}>🪤</div>
+              <h3 style={{ fontSize: 20, fontWeight: 900, marginBottom: 8 }}>Unlock Full Audit</h3>
+              <p style={{ fontSize: 13, color: "#888", marginBottom: 24, lineHeight: 1.6 }}>
+                One-time payment of <strong style={{ color: "#ef4444" }}>$4.99</strong>. No subscription. Instant access.
               </p>
 
               {/* What's included */}
               <div style={{ background: "#0d0d0d", borderRadius: 8, padding: "14px 16px", marginBottom: 24 }}>
                 {[
-                  "Full transaction breakdown with KEEP / CUT / SWAP verdicts",
-                  "Complete swap recommendations table",
-                  "Annual savings summary you can bring to a provider call",
-                  "Branded PDF ready to print or share",
+                  "All locked categories unlocked",
+                  "Complete swap recommendations and action steps",
+                  "Cancellation links and provider negotiation guide",
+                  "Downloadable PDF report — ready to print or share",
                 ].map((item, i) => (
                   <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: i < 3 ? 10 : 0 }}>
                     <span style={{ color: "#22c55e", fontSize: 13, flexShrink: 0 }}>✓</span>
-                    <span style={{ fontSize: 12, color: "#888", lineHeight: 1.5 }}>{item}</span>
+                    <span style={{ fontSize: 12, color: "#aaa", lineHeight: 1.5 }}>{item}</span>
                   </div>
                 ))}
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                {/* Step 1: Pay */}
                 <a
-                  href={STRIPE_PAYMENT_LINK}
-                  target="_blank"
+                  href={`${STRIPE_PAYMENT_LINK}?success_url=${encodeURIComponent(typeof window !== 'undefined' ? window.location.origin + '/?session={CHECKOUT_SESSION_ID}' : '')}`}
+                  target="_self"
                   rel="noopener noreferrer"
-                  style={{ display: "block", background: "#f97316", color: "#fff", border: "none", borderRadius: 7, padding: "14px", fontSize: 15, fontWeight: 800, cursor: "pointer", fontFamily: "'Syne', sans-serif", textAlign: "center", textDecoration: "none" }}>
-                  Pay $4.99 via Stripe →
+                  style={{ display: "block", background: "#ef4444", color: "#fff", border: "none", borderRadius: 7, padding: "14px", fontSize: 15, fontWeight: 800, cursor: "pointer", fontFamily: "'Syne', sans-serif", textAlign: "center", textDecoration: "none" }}>
+                  Unlock Full Audit — $4.99
                 </a>
 
-                {/* Step 2: Already paid */}
                 <button
-                  onClick={() => { setReportUnlocked(true); setShowPayModal(false); generatePDF(result); }}
-                  style={{ background: "transparent", color: "#555", border: "1px solid #222", borderRadius: 7, padding: "12px", fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "'Syne', sans-serif" }}>
-                  I've already paid → Download now
-                </button>
-
-                <button
-                  onClick={() => setShowPayModal(false)}
-                  style={{ background: "none", border: "none", color: "#444", fontSize: 12, cursor: "pointer", fontFamily: "'Syne', sans-serif", padding: "4px" }}>
+                  onClick={() => { setShowPayModal(false); setAwaitingReturn(false); }}
+                  style={{ background: "none", border: "none", color: "#555", fontSize: 12, cursor: "pointer", fontFamily: "'Syne', sans-serif", padding: "4px" }}>
                   Maybe later
                 </button>
               </div>
