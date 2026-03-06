@@ -329,22 +329,35 @@ export default function SpendTrap() {
   const [reportUnlocked, setReportUnlocked] = useState(false);
   const [showPayModal, setShowPayModal] = useState(false);
   const [awaitingReturn, setAwaitingReturn] = useState(false);
+  const [verifying, setVerifying] = useState(false);
 
-  // Auto-verify Stripe payment on redirect return
+  // Auto-verify Stripe payment on redirect return and restore saved results
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const sessionId = params.get("session_id");
     if (sessionId) {
+      setVerifying(true);
+      // Restore saved audit result
+      const saved = sessionStorage.getItem("spendtrap_result");
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          setResult(parsed);
+          setScreen("results");
+        } catch {}
+      }
+      // Verify payment with Stripe
       fetch(`/api/verify?session_id=${sessionId}`)
         .then(r => r.json())
         .then(data => {
           if (data.paid) {
             setReportUnlocked(true);
-            // Clean URL
-            window.history.replaceState({}, "", window.location.pathname);
+            sessionStorage.removeItem("spendtrap_result");
           }
+          setVerifying(false);
+          window.history.replaceState({}, "", window.location.pathname);
         })
-        .catch(() => {});
+        .catch(() => setVerifying(false));
     }
   }, []);
   const fileInputRef = useRef(null);
@@ -529,6 +542,15 @@ export default function SpendTrap() {
   const shell = (children) => (
     <div style={{ minHeight: "100vh", background: "#0a0a0a", color: "#e8e8e8", fontFamily: "'Syne', sans-serif", overflowX: "hidden" }}>
       {fontLink}
+      {verifying && (
+        <div style={{ position: "fixed", inset: 0, background: "#000000ee", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 2000 }}>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontSize: 36, marginBottom: 16 }}>🪤</div>
+            <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 8 }}>Verifying your payment...</div>
+            <div style={{ fontSize: 13, color: "#666" }}>Just a second while we confirm with Stripe.</div>
+          </div>
+        </div>
+      )}
       <div style={{ borderBottom: "1px solid #1a1a1a", padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{ width: 28, height: 28, background: "#ef4444", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 4, fontSize: 14 }}>🪤</div>
@@ -1053,9 +1075,12 @@ export default function SpendTrap() {
 
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 <a
-                  href={`${STRIPE_PAYMENT_LINK}?success_url=${encodeURIComponent(typeof window !== 'undefined' ? window.location.origin + '/?session={CHECKOUT_SESSION_ID}' : '')}`}
+                  href={STRIPE_PAYMENT_LINK}
                   target="_self"
                   rel="noopener noreferrer"
+                  onClick={() => {
+                    if (result) sessionStorage.setItem("spendtrap_result", JSON.stringify(result));
+                  }}
                   style={{ display: "block", background: "#ef4444", color: "#fff", border: "none", borderRadius: 7, padding: "14px", fontSize: 15, fontWeight: 800, cursor: "pointer", fontFamily: "'Syne', sans-serif", textAlign: "center", textDecoration: "none" }}>
                   Unlock Full Audit — $4.99
                 </a>
