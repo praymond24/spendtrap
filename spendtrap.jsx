@@ -338,7 +338,7 @@ export default function SpendTrap() {
     if (sessionId) {
       setVerifying(true);
       // Restore saved audit result
-      const saved = sessionStorage.getItem("spendtrap_result");
+      const saved = localStorage.getItem("spendtrap_result");
       if (saved) {
         try {
           const parsed = JSON.parse(saved);
@@ -352,7 +352,7 @@ export default function SpendTrap() {
         .then(data => {
           if (data.paid) {
             setReportUnlocked(true);
-            sessionStorage.removeItem("spendtrap_result");
+            localStorage.removeItem("spendtrap_result");
           }
           setVerifying(false);
           window.history.replaceState({}, "", window.location.pathname);
@@ -484,6 +484,7 @@ export default function SpendTrap() {
     setReportUnlocked(false);
     setShowPayModal(false);
     setAwaitingReturn(false);
+    localStorage.removeItem("spendtrap_result");
   }
 
   function handleShare() {
@@ -1079,7 +1080,7 @@ export default function SpendTrap() {
                   target="_self"
                   rel="noopener noreferrer"
                   onClick={() => {
-                    if (result) sessionStorage.setItem("spendtrap_result", JSON.stringify(result));
+                    if (result) localStorage.setItem("spendtrap_result", JSON.stringify(result));
                   }}
                   style={{ display: "block", background: "#ef4444", color: "#fff", border: "none", borderRadius: 7, padding: "14px", fontSize: 15, fontWeight: 800, cursor: "pointer", fontFamily: "'Syne', sans-serif", textAlign: "center", textDecoration: "none" }}>
                   Unlock Full Audit — $4.99
