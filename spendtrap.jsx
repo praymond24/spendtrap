@@ -334,7 +334,7 @@ export default function SpendTrap() {
   // Auto-verify Stripe payment on redirect return and restore saved results
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const sessionId = params.get("session_id");
+    const sessionId = params.get("session");
     if (sessionId) {
       setVerifying(true);
       // Restore saved audit result
@@ -347,7 +347,7 @@ export default function SpendTrap() {
         } catch {}
       }
       // Verify payment with Stripe
-      fetch(`/api/verify?session_id=${sessionId}`)
+      fetch(`/api/verify?session=${sessionId}`)
         .then(r => r.json())
         .then(data => {
           if (data.paid) {

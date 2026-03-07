@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const sessionId = req.nextUrl.searchParams.get("session_id");
+  const sessionId = req.nextUrl.searchParams.get("session");
 
   if (!sessionId) {
     return NextResponse.json({ paid: false, error: "No session ID provided" });
