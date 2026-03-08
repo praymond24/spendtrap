@@ -470,7 +470,7 @@ export default function SpendTrap() {
       const parsed = JSON.parse(clean.slice(jsonStart, jsonEnd + 1));
 
       if (parsed.error) {
-        setErrorMsg(parsed.error);
+        setErrorMsg(parsed.message || "Please upload a bank statement, credit card statement, or paste a list of transactions with merchant names and amounts.");
         setScreen("error");
       } else {
         setResult(parsed);
