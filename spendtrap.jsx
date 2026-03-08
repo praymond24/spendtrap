@@ -191,8 +191,15 @@ Return this exact JSON structure:
   "topInsight": <string, one high-signal insight about their spending pattern, max 20 words — specific and factual>
 }
 
-Be direct and specific. Focus on what the data shows, not character judgments. If the input is too vague or not a bank statement, return:
-{"error": "Please paste actual transaction data or upload a bank statement — merchant names and amounts work best."}`;
+IMPORTANT: First check if the input contains actual financial data — bank statements, credit card statements, transaction history, invoices, receipts, or any document showing merchant names and dollar amounts.
+
+If the input is NOT financial data (e.g. a resume, photo, random document, or anything without transaction data), return ONLY:
+{"error": "not_financial", "message": "This does not look like a bank statement or transaction history. Please upload a bank statement, credit card statement, or paste a list of transactions with merchant names and amounts."}
+
+If the input IS financial but too vague, return ONLY:
+{"error": "too_vague", "message": "Please paste actual transaction data or upload a bank statement — merchant names and amounts work best."}
+
+Be direct and specific. Focus on what the data shows, not character judgments.`;
 
 const gradeColors = { A: "#22c55e", B: "#84cc16", C: "#eab308", D: "#f97316", F: "#ef4444" };
 const gradeLabels = { A: "Squeaky Clean", B: "Not Bad", C: "Room to Grow", D: "Bleeding Cash", F: "Financial Chaos" };
