@@ -569,6 +569,7 @@ export default function SpendTrap() {
         <span style={{ fontSize: 12, color: "#444", fontFamily: "monospace" }}>🪤 SpendTrap © 2026</span>
         <a href="mailto:partnerships@spendtrap.com" style={{ fontSize: 12, color: "#666", fontFamily: "monospace", textDecoration: "none" }}>partnerships@spendtrap.com</a>
       </div>
+    </div>
   );
 
   // ── HOME ──────────────────────────────────────────────────────────────────
