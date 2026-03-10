@@ -53,7 +53,7 @@ function generatePDF(result) {
 
   <!-- Download button (hidden when printing) -->
   <div class="no-print" style="text-align:right;margin-bottom:24px;">
-    <button onclick="window.print()" style="background:#ef4444;color:#fff;border:none;padding:10px 24px;border-radius:6px;font-family:'Syne',sans-serif;font-weight:700;font-size:14px;cursor:pointer;">
+    <button onclick="window.print()" style="background:#ef4444;color:#fff;border:none;padding:10px 24px;border-radius:6px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:14px;cursor:pointer;">
       ⬇ Save as PDF
     </button>
   </div>
