@@ -38,10 +38,10 @@ function generatePDF(result) {
 <head>
   <meta charset="utf-8"/>
   <title>SpendTrap Audit Report</title>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800;900&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;700;800;900&display=swap" rel="stylesheet"/>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Syne', sans-serif; background: #fff; color: #1a1a1a; padding: 48px; max-width: 800px; margin: 0 auto; }
+    body { font-family: 'DM Sans', sans-serif; background: #fff; color: #1a1a1a; padding: 48px; max-width: 800px; margin: 0 auto; }
     @media print {
       body { padding: 24px; }
       .no-print { display: none !important; }
@@ -530,7 +530,7 @@ export default function SpendTrap() {
 
   const fontLink = (
     <style>{`
-      @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800;900&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;700;800;900&display=swap');
       * { box-sizing: border-box; margin: 0; padding: 0; }
       body { background: #0a0a0a; }
       ::-webkit-scrollbar { width: 4px; }
@@ -551,7 +551,7 @@ export default function SpendTrap() {
   );
 
   const shell = (children) => (
-    <div style={{ minHeight: "100vh", background: "#0a0a0a", color: "#e8e8e8", fontFamily: "'Syne', sans-serif", overflowX: "hidden" }}>
+    <div style={{ minHeight: "100vh", background: "#0a0a0a", color: "#e8e8e8", fontFamily: "'DM Sans', sans-serif", overflowX: "hidden" }}>
       {fontLink}
       {verifying && (
         <div style={{ position: "fixed", inset: 0, background: "#000000ee", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 2000 }}>
@@ -570,7 +570,7 @@ export default function SpendTrap() {
           <span style={{ fontSize: 9, color: "#ef4444", fontFamily: "monospace", border: "1px solid #ef444433", padding: "2px 6px", borderRadius: 2, letterSpacing: "0.1em" }}>BETA</span>
         </div>
         {screen !== "home" && (
-          <button onClick={resetAll} style={{ background: "none", border: "1px solid #222", color: "#666", fontSize: 12, padding: "6px 14px", borderRadius: 4, cursor: "pointer", fontFamily: "'Syne', sans-serif" }}>
+          <button onClick={resetAll} style={{ background: "none", border: "1px solid #222", color: "#666", fontSize: 12, padding: "6px 14px", borderRadius: 4, cursor: "pointer", fontFamily: "'DM Sans', sans-serif" }}>
             ← New Audit
           </button>
         )}
@@ -604,7 +604,7 @@ export default function SpendTrap() {
           {[{ id: "paste", label: "✏️  Paste Text" }, { id: "upload", label: "📎  Upload File" }].map(t => (
             <button key={t.id} onClick={() => setTab(t.id)} style={{
               flex: 1, padding: "9px 0", border: "none", borderRadius: 5, cursor: "pointer",
-              fontFamily: "'Syne', sans-serif", fontSize: 13, fontWeight: 700,
+              fontFamily: "'DM Sans', sans-serif", fontSize: 13, fontWeight: 700,
               background: tab === t.id ? "#1a1a1a" : "transparent",
               color: tab === t.id ? "#e8e8e8" : "#555",
               boxShadow: tab === t.id ? "0 1px 4px #00000060" : "none",
@@ -714,7 +714,7 @@ export default function SpendTrap() {
             color: canSubmit ? "#fff" : "#444",
             border: "none", borderRadius: 6, padding: "16px",
             fontSize: 15, fontWeight: 800, cursor: canSubmit ? "pointer" : "not-allowed",
-            fontFamily: "'Syne', sans-serif", letterSpacing: "-0.01em",
+            fontFamily: "'DM Sans', sans-serif", letterSpacing: "-0.01em",
             transition: "all 0.2s ease",
           }}>
           See My Free Preview →
@@ -779,7 +779,7 @@ export default function SpendTrap() {
       <div style={{ fontSize: 40, marginBottom: 20 }}>🤔</div>
       <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 12 }}>Couldn't Parse That</h2>
       <p style={{ color: "#666", marginBottom: 28, lineHeight: 1.6 }}>{errorMsg}</p>
-      <button onClick={resetAll} style={{ background: "#ef4444", color: "#fff", border: "none", padding: "12px 28px", borderRadius: 6, fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: "'Syne', sans-serif" }}>Try Again</button>
+      <button onClick={resetAll} style={{ background: "#ef4444", color: "#fff", border: "none", padding: "12px 28px", borderRadius: 6, fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: "'DM Sans', sans-serif" }}>Try Again</button>
     </div>
   );
 
@@ -998,7 +998,7 @@ export default function SpendTrap() {
                           <div style={{ fontSize: 11, color: "#555" }}>Save ${swap.monthlySavings?.toFixed(0)}/mo · ${swap.annualSavings?.toFixed(0)}/yr</div>
                         </div>
                         <a href={url} target="_blank" rel="noopener noreferrer"
-                          style={{ background: "#22c55e22", color: "#22c55e", border: "1px solid #22c55e44", borderRadius: 5, padding: "8px 16px", fontSize: 11, fontWeight: 700, cursor: "pointer", fontFamily: "'Syne', sans-serif", letterSpacing: "0.05em", whiteSpace: "nowrap", textDecoration: "none", display: "inline-block" }}
+                          style={{ background: "#22c55e22", color: "#22c55e", border: "1px solid #22c55e44", borderRadius: 5, padding: "8px 16px", fontSize: 11, fontWeight: 700, cursor: "pointer", fontFamily: "'DM Sans', sans-serif", letterSpacing: "0.05em", whiteSpace: "nowrap", textDecoration: "none", display: "inline-block" }}
                           onMouseEnter={e => e.currentTarget.style.background = "#22c55e44"}
                           onMouseLeave={e => e.currentTarget.style.background = "#22c55e22"}>
                           {swap.action || "Switch Now"} ↗
@@ -1026,10 +1026,10 @@ export default function SpendTrap() {
             "SpendTrap found ${Math.round(result.totalAnnualWaste).toLocaleString()}/year in wasted spending in my account. My Waste Score was {result.wasteScore}. What would yours be?"
           </p>
           <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
-            <button onClick={handleShare} style={{ background: shareFlash ? "#22c55e" : "#ef4444", color: "#fff", border: "none", borderRadius: 6, padding: "12px 24px", fontSize: 14, fontWeight: 800, cursor: "pointer", fontFamily: "'Syne', sans-serif", transition: "background 0.3s ease" }}>
+            <button onClick={handleShare} style={{ background: shareFlash ? "#22c55e" : "#ef4444", color: "#fff", border: "none", borderRadius: 6, padding: "12px 24px", fontSize: 14, fontWeight: 800, cursor: "pointer", fontFamily: "'DM Sans', sans-serif", transition: "background 0.3s ease" }}>
               {shareFlash ? "✓ Copied!" : "Share on X →"}
             </button>
-            <button onClick={resetAll} style={{ background: "transparent", color: "#888", border: "1px solid #333", borderRadius: 6, padding: "12px 24px", fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: "'Syne', sans-serif" }}>
+            <button onClick={resetAll} style={{ background: "transparent", color: "#888", border: "1px solid #333", borderRadius: 6, padding: "12px 24px", fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: "'DM Sans', sans-serif" }}>
               Audit Another Statement
             </button>
           </div>
@@ -1060,13 +1060,13 @@ export default function SpendTrap() {
           {reportUnlocked ? (
             <button
               onClick={() => generatePDF(result)}
-              style={{ background: "#22c55e", color: "#fff", border: "none", borderRadius: 6, padding: "12px 22px", fontSize: 13, fontWeight: 800, cursor: "pointer", fontFamily: "'Syne', sans-serif", whiteSpace: "nowrap" }}>
+              style={{ background: "#22c55e", color: "#fff", border: "none", borderRadius: 6, padding: "12px 22px", fontSize: 13, fontWeight: 800, cursor: "pointer", fontFamily: "'DM Sans', sans-serif", whiteSpace: "nowrap" }}>
               ⬇ Download PDF
             </button>
           ) : (
             <button
               onClick={() => setShowPayModal(true)}
-              style={{ background: "#f97316", color: "#fff", border: "none", borderRadius: 6, padding: "12px 22px", fontSize: 13, fontWeight: 800, cursor: "pointer", fontFamily: "'Syne', sans-serif", whiteSpace: "nowrap" }}>
+              style={{ background: "#f97316", color: "#fff", border: "none", borderRadius: 6, padding: "12px 22px", fontSize: 13, fontWeight: 800, cursor: "pointer", fontFamily: "'DM Sans', sans-serif", whiteSpace: "nowrap" }}>
               Unlock for $4.99 →
             </button>
           )}
@@ -1105,13 +1105,13 @@ export default function SpendTrap() {
                   onClick={() => {
                     if (result) localStorage.setItem("spendtrap_result", JSON.stringify(result));
                   }}
-                  style={{ display: "block", background: "#ef4444", color: "#fff", border: "none", borderRadius: 7, padding: "14px", fontSize: 15, fontWeight: 800, cursor: "pointer", fontFamily: "'Syne', sans-serif", textAlign: "center", textDecoration: "none" }}>
+                  style={{ display: "block", background: "#ef4444", color: "#fff", border: "none", borderRadius: 7, padding: "14px", fontSize: 15, fontWeight: 800, cursor: "pointer", fontFamily: "'DM Sans', sans-serif", textAlign: "center", textDecoration: "none" }}>
                   Unlock Full Audit — $4.99
                 </a>
 
                 <button
                   onClick={() => { setShowPayModal(false); setAwaitingReturn(false); }}
-                  style={{ background: "none", border: "none", color: "#555", fontSize: 12, cursor: "pointer", fontFamily: "'Syne', sans-serif", padding: "4px" }}>
+                  style={{ background: "none", border: "none", color: "#555", fontSize: 12, cursor: "pointer", fontFamily: "'DM Sans', sans-serif", padding: "4px" }}>
                   Maybe later
                 </button>
               </div>
