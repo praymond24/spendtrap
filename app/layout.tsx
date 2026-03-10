@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "SpendTrap — Subscription Trap Detector",
+  title: "SpendTrap — Find Hidden Subscriptions Draining Your Account",
   description: "Find every subscription, fee, and hidden charge draining your account. Free preview. Full audit $4.99 one-time.",
   metadataBase: new URL("https://spendtrap.com"),
   openGraph: {
-    title: "SpendTrap — Subscription Trap Detector",
+    title: "SpendTrap — Find Hidden Subscriptions Draining Your Account",
     description: "Find every subscription, fee, and hidden charge draining your account. Free preview. Full audit $4.99 one-time.",
     url: "https://spendtrap.com",
     siteName: "SpendTrap",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "SpendTrap — Subscription Trap Detector",
+    title: "SpendTrap — Find Hidden Subscriptions Draining Your Account",
     description: "Find every subscription, fee, and hidden charge draining your account. Free preview. Full audit $4.99 one-time.",
     images: ["/og-image.png"],
   },
