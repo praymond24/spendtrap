@@ -37,9 +37,7 @@ export default function Blog() {
 
         {posts.map(post => (
           <Link key={post.slug} href={`/blog/${post.slug}`} style={{ textDecoration: "none", display: "block" }}>
-            <div style={{ borderBottom: "1px solid #1a1a1a", paddingBottom: 40, marginBottom: 40 }}
-              onMouseEnter={e => (e.currentTarget.style.opacity = "0.8")}
-              onMouseLeave={e => (e.currentTarget.style.opacity = "1")}>
+            <div style={{ borderBottom: "1px solid #1a1a1a", paddingBottom: 40, marginBottom: 40 }}>
               <div style={{ display: "flex", gap: 12, marginBottom: 12, alignItems: "center" }}>
                 <span style={{ fontFamily: "monospace", fontSize: 11, color: "#ef4444", textTransform: "uppercase", letterSpacing: "0.1em" }}>{post.category}</span>
                 <span style={{ fontSize: 11, color: "#333" }}>·</span>
