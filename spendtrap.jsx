@@ -1021,7 +1021,7 @@ export default function SpendTrap() {
         <div className="fade-up-5" style={{ background: "#0d0d0d", border: "1px solid #1e1e1e", borderRadius: 10, padding: "28px 24px", textAlign: "center" }}>
           <div style={{ fontSize: 22, marginBottom: 8 }}>📣</div>
           <h3 style={{ fontSize: 17, fontWeight: 800, marginBottom: 6 }}>Share Your Score</h3>
-          <p style={{ fontSize: 12, color: "#22c55e", fontFamily: "monospace", marginBottom: 4 }}>🎁 Share on X → get 50% off the full audit</p>
+          {!sharedOnX && <p style={{ fontSize: 12, color: "#22c55e", fontFamily: "monospace", marginBottom: 4 }}>🎁 Share on X → get 50% off the full audit</p>}
           <p style={{ fontSize: 13, color: "#888", marginBottom: 20, lineHeight: 1.5 }}>
             "SpendTrap found ${Math.round(result.totalAnnualWaste).toLocaleString()}/year in wasted spending in my account. My Waste Score was {result.wasteScore}. What would yours be?"
           </p>
@@ -1030,16 +1030,16 @@ export default function SpendTrap() {
               {shareFlash ? "✓ Copied!" : "Share on X →"}
             </button>
             <button onClick={resetAll} style={{ background: "transparent", color: "#888", border: "1px solid #333", borderRadius: 6, padding: "12px 24px", fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: "'Syne', sans-serif" }}>
-            {sharedOnX && (
-              <div style={{ marginTop: 16, background: "#0f1f0f", border: "1px solid #22c55e44", borderRadius: 8, padding: "16px 20px", textAlign: "center" }}>
-                <p style={{ fontSize: 13, color: "#22c55e", fontFamily: "monospace", fontWeight: 700, marginBottom: 6 }}>✓ Thanks for sharing! Here is your 50% off code:</p>
-                <div style={{ background: "#111", border: "1px solid #22c55e", borderRadius: 4, padding: "10px 16px", fontSize: 18, fontWeight: 800, letterSpacing: "0.15em", color: "#f0f0f0", fontFamily: "monospace", marginBottom: 10 }}>SPENDTRAP50</div>
-                <p style={{ fontSize: 12, color: "#555", fontFamily: "monospace" }}>Apply at checkout — unlocks full audit for $2.49</p>
-              </div>
-            )}
-                          Audit Another Statement
+              Audit Another Statement
             </button>
           </div>
+          {sharedOnX && (
+            <div style={{ marginTop: 20, background: "#0f1f0f", border: "1px solid #22c55e55", borderRadius: 8, padding: "16px 20px", textAlign: "center" }}>
+              <p style={{ fontSize: 13, color: "#22c55e", fontFamily: "monospace", fontWeight: 700, marginBottom: 8 }}>✓ Thanks for sharing! Here is your 50% off code:</p>
+              <div style={{ background: "#111", border: "1px solid #22c55e", borderRadius: 4, padding: "10px 16px", fontSize: 20, fontWeight: 800, letterSpacing: "0.15em", color: "#f0f0f0", fontFamily: "monospace", marginBottom: 8 }}>SPENDTRAP50</div>
+              <p style={{ fontSize: 12, color: "#555", fontFamily: "monospace" }}>Apply at checkout — unlocks full audit for $2.49</p>
+            </div>
+          )}
         </div>
 
         {/* Save Report CTA */}
