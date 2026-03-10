@@ -3,12 +3,36 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "How to Find Hidden Subscriptions on Your Bank Statement — SpendTrap",
-  description: "Most people have 3-5 subscriptions they've completely forgotten about. Here's exactly how to find every hidden charge on your bank statement — in under 5 minutes.",
+  description: "Most people have 3-5 subscriptions they've completely forgotten about. Here's exactly how to find every hidden charge in under 5 minutes.",
+    metadataBase: new URL("https://spendtrap.com"),
+  openGraph: {
+    title: "How to Find Hidden Subscriptions on Your Bank Statement",
+    description: "Most people have 3-5 subscriptions they've completely forgotten about. Here's exactly how to find every hidden charge in under 5 minutes.",
+    url: "https://spendtrap.com/blog/how-to-find-hidden-subscriptions",
+    siteName: "SpendTrap",
+    type: "article",
+    publishedTime: "2026-03-10T00:00:00Z",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "How to Find Hidden Subscriptions on Your Bank Statement",
+    description: "Most people have 3-5 subscriptions they've completely forgotten about. Here's exactly how to find every hidden charge in under 5 minutes.",
+  },
 };
 
 export default function BlogPost() {
   return (
     <div style={{ background: "#0a0a0a", minHeight: "100vh", fontFamily: "'Georgia', serif" }}>
+      <>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "How to Find Hidden Subscriptions on Your Bank Statement",
+          "description": "Most people have 3-5 subscriptions they've completely forgotten about. Here's exactly how to find every hidden charge in under 5 minutes.",
+          "datePublished": "2026-03-10T00:00:00Z",
+          "author": { "@type": "Organization", "name": "SpendTrap" },
+          "publisher": { "@type": "Organization", "name": "SpendTrap", "url": "https://spendtrap.com" }
+        }) } } />
       <nav style={{ borderBottom: "1px solid #1a1a1a", padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
           <div style={{ width: 28, height: 28, background: "#ef4444", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 4, fontSize: 14 }}>🪤</div>
@@ -18,6 +42,7 @@ export default function BlogPost() {
           Run Free Audit →
         </Link>
       </nav>
+      </>
       <article style={{ maxWidth: 720, margin: "0 auto", padding: "60px 24px 80px" }}>
         <div style={{ fontFamily: "monospace", fontSize: 11, color: "#ef4444", letterSpacing: "0.2em", marginBottom: 20, textTransform: "uppercase" }}>Bank Statements · 6 min read</div>
         <h1 style={{ fontSize: "clamp(28px, 5vw, 46px)", fontWeight: 800, lineHeight: 1.15, color: "#f0f0f0", marginBottom: 24, fontFamily: "sans-serif" }}>

@@ -3,12 +3,36 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "What Subscriptions Do I Have? How to Find Out in 5 Minutes — SpendTrap",
-  description: "Can't remember what subscriptions you're paying for? You're not alone. Here's exactly how to find every active subscription on your accounts in under 5 minutes.",
+  description: "Can't remember what subscriptions you're paying for? Here is every place they hide and how to find them all fast.",
+    metadataBase: new URL("https://spendtrap.com"),
+  openGraph: {
+    title: "What Subscriptions Do I Have? How to Find Out in 5 Minutes",
+    description: "Can't remember what subscriptions you're paying for? Here is every place they hide and how to find them all fast.",
+    url: "https://spendtrap.com/blog/what-subscriptions-do-i-have",
+    siteName: "SpendTrap",
+    type: "article",
+    publishedTime: "2026-03-10T00:00:00Z",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "What Subscriptions Do I Have? How to Find Out in 5 Minutes",
+    description: "Can't remember what subscriptions you're paying for? Here is every place they hide and how to find them all fast.",
+  },
 };
 
 export default function BlogPost() {
   return (
     <div style={{ background: "#0a0a0a", minHeight: "100vh", fontFamily: "'Georgia', serif" }}>
+      <>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "What Subscriptions Do I Have? How to Find Out in 5 Minutes",
+          "description": "Can't remember what subscriptions you're paying for? Here is every place they hide and how to find them all fast.",
+          "datePublished": "2026-03-10T00:00:00Z",
+          "author": { "@type": "Organization", "name": "SpendTrap" },
+          "publisher": { "@type": "Organization", "name": "SpendTrap", "url": "https://spendtrap.com" }
+        }) } } />
       <nav style={{ borderBottom: "1px solid #1a1a1a", padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
           <div style={{ width: 28, height: 28, background: "#ef4444", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 4, fontSize: 14 }}>🪤</div>
@@ -18,6 +42,7 @@ export default function BlogPost() {
           Run Free Audit →
         </Link>
       </nav>
+      </>
       <article style={{ maxWidth: 720, margin: "0 auto", padding: "60px 24px 80px" }}>
         <div style={{ fontFamily: "monospace", fontSize: 11, color: "#ef4444", letterSpacing: "0.2em", marginBottom: 20, textTransform: "uppercase" }}>Subscriptions · 5 min read</div>
         <h1 style={{ fontSize: "clamp(28px, 5vw, 46px)", fontWeight: 800, lineHeight: 1.15, color: "#f0f0f0", marginBottom: 24, fontFamily: "sans-serif" }}>

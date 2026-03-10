@@ -2,14 +2,38 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "27 Subscriptions You Probably Have and Don't Need in 2026 — SpendTrap",
-  description: "Most people are paying for 8-12 subscriptions they've forgotten about. Here are 27 common ones draining your account right now — and how to find them all in 60 seconds.",
+  title: "27 Subscriptions You Don't Need (But Probably Have) — SpendTrap",
+  description: "The most commonly forgotten subscriptions draining bank accounts right now — and what to do about them.",
+    metadataBase: new URL("https://spendtrap.com"),
+  openGraph: {
+    title: "27 Subscriptions You Don't Need (But Probably Have)",
+    description: "The most commonly forgotten subscriptions draining bank accounts right now — and what to do about them.",
+    url: "https://spendtrap.com/blog/27-subscriptions-you-dont-need",
+    siteName: "SpendTrap",
+    type: "article",
+    publishedTime: "2026-03-09T00:00:00Z",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "27 Subscriptions You Don't Need (But Probably Have)",
+    description: "The most commonly forgotten subscriptions draining bank accounts right now — and what to do about them.",
+  },
 };
 
 export default function BlogPost() {
   return (
     <div style={{ background: "#0a0a0a", minHeight: "100vh", fontFamily: "'Georgia', serif" }}>
       {/* NAV */}
+      <>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": "27 Subscriptions You Don't Need (But Probably Have)",
+          "description": "The most commonly forgotten subscriptions draining bank accounts right now — and what to do about them.",
+          "datePublished": "2026-03-09T00:00:00Z",
+          "author": { "@type": "Organization", "name": "SpendTrap" },
+          "publisher": { "@type": "Organization", "name": "SpendTrap", "url": "https://spendtrap.com" }
+        }) } } />
       <nav style={{ borderBottom: "1px solid #1a1a1a", padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
           <div style={{ width: 28, height: 28, background: "#ef4444", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 4, fontSize: 14 }}>🪤</div>
@@ -19,6 +43,7 @@ export default function BlogPost() {
           Run Free Audit →
         </Link>
       </nav>
+      </>
 
       {/* ARTICLE */}
       <article style={{ maxWidth: 720, margin: "0 auto", padding: "60px 24px 80px" }}>
