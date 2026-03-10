@@ -405,8 +405,30 @@ export default function SpendTrap() {
   const onDragOver = useCallback((e) => { e.preventDefault(); setIsDragging(true); }, []);
   const onDragLeave = useCallback(() => setIsDragging(false), []);
 
+  function hashInput(str) {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = ((hash << 5) - hash) + str.charCodeAt(i);
+      hash |= 0;
+    }
+    return "st_cache_" + Math.abs(hash).toString(36);
+  }
+
   async function analyze() {
     if (!canSubmit) return;
+
+    // Check cache first — same input always returns same result
+    const cacheKey = hashInput(tab === "paste" ? input : (uploadedFile?.base64?.slice(0, 500) || input));
+    const cached = localStorage.getItem(cacheKey);
+    if (cached) {
+      try {
+        const cachedResult = JSON.parse(cached);
+        setResult(cachedResult);
+        setScreen("result");
+        return;
+      } catch {}
+    }
+
     setScreen("loading");
 
     let msgIdx = 0;
