@@ -8,6 +8,14 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: "how-to-find-hidden-subscriptions",
+    title: "How to Find Hidden Subscriptions on Your Bank Statement",
+    description: "Most people have 3-5 subscriptions they've completely forgotten about. Here's exactly how to find every hidden charge — in under 5 minutes.",
+    date: "March 10, 2026",
+    readTime: "6 min read",
+    category: "Bank Statements",
+  },
+  {
     slug: "27-subscriptions-you-dont-need",
     title: "27 Subscriptions You Probably Have and Don't Need in 2026",
     description: "The average American pays for 12 subscriptions but can only name 8. Here's what's hiding in your bank statement.",
