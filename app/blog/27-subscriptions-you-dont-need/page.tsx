@@ -212,6 +212,14 @@ export default function BlogPost() {
           <p style={{ fontSize: 13, color: "#555", marginTop: 16, fontFamily: "sans-serif" }}>Free preview included. Full audit $4.99 one-time. No subscription.</p>
         </div>
 
+
+        <div style={{ borderTop: "1px solid #1a1a1a", marginTop: 64, paddingTop: 40 }}>
+          <p style={{ fontSize: 11, color: "#ef4444", fontFamily: "monospace", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 20 }}>Related Articles</p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <Link href="/blog/how-to-find-hidden-subscriptions" style={{ display: "block", background: "#111", border: "1px solid #1a1a1a", borderRadius: 6, padding: "16px 20px", textDecoration: "none", color: "#ccc", fontSize: 15, fontFamily: "sans-serif" }}>→ How to Find Hidden Subscriptions on Your Bank Statement</Link>
+            <Link href="/blog/what-subscriptions-do-i-have" style={{ display: "block", background: "#111", border: "1px solid #1a1a1a", borderRadius: 6, padding: "16px 20px", textDecoration: "none", color: "#ccc", fontSize: 15, fontFamily: "sans-serif" }}>→ What Subscriptions Do I Have? How to Find Out in 5 Minutes</Link>
+          </div>
+        </div>
       </article>
 
       {/* FOOTER */}

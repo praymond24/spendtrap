@@ -96,6 +96,14 @@ export default function BlogPost() {
           </Link>
           <p style={{ fontSize: 13, color: "#555", marginTop: 16, fontFamily: "sans-serif" }}>Free preview included. Full audit $4.99 one-time. No subscription.</p>
         </div>
+
+        <div style={{ borderTop: "1px solid #1a1a1a", marginTop: 64, paddingTop: 40 }}>
+          <p style={{ fontSize: 11, color: "#ef4444", fontFamily: "monospace", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 20 }}>Related Articles</p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <Link href="/blog/27-subscriptions-you-dont-need" style={{ display: "block", background: "#111", border: "1px solid #1a1a1a", borderRadius: 6, padding: "16px 20px", textDecoration: "none", color: "#ccc", fontSize: 15, fontFamily: "sans-serif" }}>→ 27 Subscriptions You Don't Need (But Probably Have)</Link>
+            <Link href="/blog/what-subscriptions-do-i-have" style={{ display: "block", background: "#111", border: "1px solid #1a1a1a", borderRadius: 6, padding: "16px 20px", textDecoration: "none", color: "#ccc", fontSize: 15, fontFamily: "sans-serif" }}>→ What Subscriptions Do I Have? How to Find Out in 5 Minutes</Link>
+          </div>
+        </div>
       </article>
       <div style={{ borderTop: "1px solid #141414", padding: "20px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
         <span style={{ fontSize: 12, color: "#444", fontFamily: "monospace" }}>🪤 SpendTrap © 2026</span>
