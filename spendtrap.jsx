@@ -160,7 +160,7 @@ Analyze the transactions and identify:
 
 Return this exact JSON structure:
 {
-  "wasteScore": <integer 0-100, where 0 = perfect, 100 = maximum waste>,
+  "wasteScore": <integer 0-100, where 0 = perfect, 100 = maximum waste. IMPORTANT: Given the same transactions, always return the exact same wasteScore. Base it strictly on the math: total monthly waste divided by total monthly spend, scaled 0-100. Do not vary this between calls.>,
   "totalMonthlyWaste": <number, estimated monthly dollars being wasted>,
   "totalAnnualWaste": <number, totalMonthlyWaste * 12>,
   "grade": <"A", "B", "C", "D", or "F">,
@@ -795,7 +795,7 @@ export default function SpendTrap() {
           <ScoreRing score={result.wasteScore} grade={result.grade} />
           <div style={{ marginTop: 16 }}>
             <span style={{ background: gradeColor + "22", color: gradeColor, fontFamily: "monospace", fontSize: 11, letterSpacing: "0.2em", padding: "4px 12px", borderRadius: 3, border: `1px solid ${gradeColor}44` }}>
-              GRADE {result.grade} — {gradeLabels[result.grade]}
+              <span style={{ fontFamily: "monospace" }}>GRADE {result.grade}</span> — {gradeLabels[result.grade]}
             </span>
           </div>
           <p style={{ marginTop: 16, fontSize: 20, fontWeight: 700, color: "#d4d4d4", letterSpacing: "-0.01em" }}>
