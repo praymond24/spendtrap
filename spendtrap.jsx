@@ -563,6 +563,7 @@ export default function SpendTrap() {
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{ width: 28, height: 28, background: "#ef4444", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 4, fontSize: 14 }}>🪤</div>
           <span style={{ fontWeight: 800, fontSize: 16, letterSpacing: "-0.02em" }}>SpendTrap</span>
+          <a href="/blog" style={{ fontSize: 13, color: "#666", textDecoration: "none", fontFamily: "monospace", marginLeft: 8 }}>Blog</a>
           <span style={{ fontSize: 9, color: "#ef4444", fontFamily: "monospace", border: "1px solid #ef444433", padding: "2px 6px", borderRadius: 2, letterSpacing: "0.1em" }}>BETA</span>
         </div>
         {screen !== "home" && (
