@@ -9,6 +9,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
+      url: 'https://spendtrap.com/blog',
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
       url: 'https://spendtrap.com/blog/27-subscriptions-you-dont-need',
       lastModified: new Date(),
       changeFrequency: 'monthly',
