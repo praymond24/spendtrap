@@ -8,6 +8,14 @@ export const metadata: Metadata = {
 
 const posts = [
   {
+    slug: "what-subscriptions-do-i-have",
+    title: "What Subscriptions Do I Have? How to Find Out in 5 Minutes",
+    description: "Can not remember what subscriptions you are paying for? Here is every place they hide — and how to find them all fast.",
+    date: "March 10, 2026",
+    readTime: "5 min read",
+    category: "Subscriptions",
+  },
+  {
     slug: "how-to-find-hidden-subscriptions",
     title: "How to Find Hidden Subscriptions on Your Bank Statement",
     description: "Most people have 3-5 subscriptions they've completely forgotten about. Here's exactly how to find every hidden charge — in under 5 minutes.",
