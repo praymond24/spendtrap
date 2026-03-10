@@ -498,16 +498,19 @@ export default function SpendTrap() {
     const text = result
       ? `SpendTrap just found $${Math.round(result.totalAnnualWaste).toLocaleString()}/year trapped in my subscriptions and fees. My Waste Score: ${result.wasteScore}/100 (Grade ${result.grade}). What's yours? 👉 spendtrap.com`
       : "";
-    // Primary: modern clipboard API
     const doCopy = () => {
       setShareFlash(true);
       setTimeout(() => setShareFlash(false), 2500);
     };
+    // Copy to clipboard
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(doCopy).catch(() => fallbackCopy(text, doCopy));
     } else {
       fallbackCopy(text, doCopy);
     }
+    // Open X share intent
+    const xUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+    window.open(xUrl, "_blank", "noopener,noreferrer");
   }
 
   function fallbackCopy(text, onSuccess) {
